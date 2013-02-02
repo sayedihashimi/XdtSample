@@ -1,13 +1,9 @@
-﻿using Microsoft.Web.XmlTransform;
-using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Xml;
+﻿namespace XdtSample {
+    using Microsoft.Web.XmlTransform;
+    using System;
+    using System.IO;
+    using System.Text;
 
-namespace XdtSample {
     class Program {
         static void Main(string[] args) {
             if (args == null || args.Length < 3) {
