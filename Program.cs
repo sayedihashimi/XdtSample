@@ -22,17 +22,24 @@ namespace XdtSample {
             if (!File.Exists(sourceFile)) { throw new FileNotFoundException("sourceFile doesn't exist"); }
             if (!File.Exists(transformFile)) { throw new FileNotFoundException("transformFile doesn't exist"); }
 
-            XmlTransformableDocument document = new XmlTransformableDocument();
-            document.PreserveWhitespace = true;
-            document.Load(sourceFile);
+            using (XmlTransformableDocument document = new XmlTransformableDocument()) {
+                document.PreserveWhitespace = true;
+                document.Load(sourceFile);
 
-            XmlTransformation transform = new XmlTransformation(transformFile);
-            var success = transform.Apply(document);
+                using (XmlTransformation transform = new XmlTransformation(transformFile)) {
 
-            document.Save(destFile);
+                    var success = transform.Apply(document);
 
-            int exitCode = (success == true) ? 0 : 1;
-            Environment.Exit(exitCode);
+                    document.Save(destFile);
+
+                    System.Console.WriteLine(
+                        string.Format("\nSaved transformation at '{0}'\n\n",
+                        new FileInfo(destFile).FullName));
+
+                    int exitCode = (success == true) ? 0 : 1;
+                    Environment.Exit(exitCode);
+                }
+            }
         }
 
         static void ShowUsage() {
